@@ -1,8 +1,9 @@
 class Character {
-  constructor() {
-    this.characterName = rawCharacterData.name
-    this.characterSpecies = rawCharacterData.species
-    this.homePlanet = rawCharacterData.homeworld
+  constructor(characterData) {
+    // <----- This is just a placeholder argument name, but it's often the same name (or similar) as the argument being passed into it when the new class instance is created because we're talking about the same kind of data.
+    this.characterName = characterData.name
+    this.characterSpecies = characterData.species
+    this.homePlanet = characterData.homeworld
   }
 
   name() {
@@ -16,11 +17,11 @@ class Character {
   homePlanet() {
     return this.homePlanet
   }
-}
+
 
 const main = () => {
   //
-  const fakeData = {
+  let fakeData = {
     count: 87,
     next: 'https://swapi.co/api/people/?page=2',
     previous: null,
@@ -260,12 +261,19 @@ const main = () => {
       }
     ]
   }
-  let characters = fakeData.results.forEach(rawCharacterData => {
+
+  const characters = fakeData.results.map(rawCharacterData => {
     let newCharacter = new Character(rawCharacterData)
     return newCharacter
   })
 
-  console.log(characters)
+  characters.forEach(character => {
+    let characterArea = document.querySelector('.character-area')
+    let newLine = document.createElement('p')
+    newLine.textContent = `${character.characterName} is a ${character.characterSpecies} from ${character.homePlanet}.`
+
+    characterArea.appendChild(newLine)
+  })
 }
 
 document.addEventListener('DOMContentLoaded', main)
