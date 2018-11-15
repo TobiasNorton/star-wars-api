@@ -17,7 +17,7 @@ class Character {
   homePlanet() {
     return this.homePlanet
   }
-
+}
 
 const main = () => {
   //
@@ -262,18 +262,31 @@ const main = () => {
     ]
   }
 
-  const characters = fakeData.results.map(rawCharacterData => {
-    let newCharacter = new Character(rawCharacterData)
-    return newCharacter
-  })
+  fetch('https://swapi.co/api/people/')
+    .then(response => response.json())
+    .then(rawData => {
+      console.log(rawData)
+      const characters = rawData.results.map(rawCharacterData => {
+        let newCharacter = new Character(rawCharacterData)
+        return newCharacter
+      })
+      console.log(characters)
 
-  characters.forEach(character => {
-    let characterArea = document.querySelector('.character-area')
-    let newLine = document.createElement('p')
-    newLine.textContent = `${character.characterName} is a ${character.characterSpecies} from ${character.homePlanet}.`
+      characters.forEach(character => {
+        let characterArea = document.querySelector('.character-area')
+        let newLine = document.createElement('p')
+        newLine.textContent = `${character.characterName} is a ${character.characterSpecies} from ${
+          character.homePlanet
+        }.`
 
-    characterArea.appendChild(newLine)
-  })
+        characterArea.appendChild(newLine)
+      })
+    })
 }
 
 document.addEventListener('DOMContentLoaded', main)
+
+// const characters = fakeData.results.map(rawCharacterData => new Character(rawCharacterData.forEach(character => {
+//   let characterArea = document.querySelector('.character-area')
+//   let newLine = document.createElement('p')
+//   newLine.textContent = `${character.characterName} is a ${character.characterSpecies} from ${character.homePlanet}.`
